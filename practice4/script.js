@@ -42,3 +42,25 @@ function calcStats(list) {
     const failed = list.filter(item => item.score < 60).map(item => item.name);
     return { count: list.length, average, passed, failed };
 }
+
+// ---------- 第四步：格式化输出（把统计结果拼成可读的报告）----------
+/**
+ * 格式化并打印成绩统计报告
+ * @param {Object} stats calcStats 返回的统计结果
+ */
+function printReport(stats) {
+    console.log('【输出】====== 成绩统计报告 ======');
+    console.log('有效成绩人数：' + stats.count + ' 人');
+    console.log('平均分：' + stats.average + ' 分');
+    console.log('及格名单（' + stats.passed.length + '人）：' + stats.passed.join('、'));
+    console.log('不及格名单（' + stats.failed.length + '人）：' + stats.failed.join('、'));
+}
+
+// ---------- 主流程：原始数据 → 清洗 → 计算 → 格式化输出 ----------
+const cleanData = cleanScores(rawScores);
+console.log('【中间结果】清洗后数据：', cleanData);
+
+const stats = calcStats(cleanData);
+console.log('【中间结果】统计计算结果：', stats);
+
+printReport(stats);
