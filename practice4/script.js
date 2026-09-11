@@ -18,3 +18,27 @@ const rawScores = [
 ];
 
 console.log('【输入】原始数据：', rawScores);
+
+// ---------- 第二步：数据清洗（只保留 0~100 的数字成绩，非法数据被过滤，程序不崩溃）----------
+/**
+ * 清洗成绩数据
+ * @param {Array} list 原始成绩数组
+ * @returns {Array} 只含合法成绩的新数组
+ */
+function cleanScores(list) {
+    return list.filter(item => typeof item.score === 'number' && item.score >= 0 && item.score <= 100);
+}
+
+// ---------- 第三步：统计计算（reduce 求总分平均分，filter+map 求及格/不及格名单）----------
+/**
+ * 计算成绩统计结果
+ * @param {Array} list 清洗后的成绩数组
+ * @returns {Object} 人数、平均分、及格名单、不及格名单
+ */
+function calcStats(list) {
+    const total = list.reduce((sum, item) => sum + item.score, 0);
+    const average = list.length > 0 ? Math.round((total / list.length) * 100) / 100 : 0;
+    const passed = list.filter(item => item.score >= 60).map(item => item.name);
+    const failed = list.filter(item => item.score < 60).map(item => item.name);
+    return { count: list.length, average, passed, failed };
+}
